@@ -1,11 +1,14 @@
 {% extends "test.html" %}
-{% block title %}Training and Development | AISERS{% endblock %}
+{% block title %}Dashboard | AISERS{% endblock %}
 
 {% block content %}
 <br>
 <h1>Dashboard</h1>
 <section>
-    
+    <h2>Training and Development</h2>
+    <a href="{{ url_for('training') }}">
+        <button class="btn btn-primary">View Modules</button>
+    </a>
 </section>
 
 {% endblock %}

@@ -52,6 +52,11 @@ def prog_and_events():
     # insert session code block here
     return render_template('events.html')
 
+@app.route("/training-and-development")
+def training():
+    # insert session code block here
+    return render_template('training.html')
+
 # insert logout route here
 # @app.route("/logout")
 # def logout():
