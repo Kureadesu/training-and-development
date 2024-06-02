@@ -1,26 +1,53 @@
-from flask import Flask, redirect, url_for, render_template, request, session
+from flask import Flask, redirect, url_for, render_template, request, session, jsonify
 from flask_sqlalchemy import SQLAlchemy
 from datetime import timedelta
+import mysql.connector
+from mysql.connector import Error
 
 
 app = Flask(__name__)
 app.secret_key = "asdfghjkl"
-app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///users.sqlite3'
-app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 app.permanent_session_lifetime = timedelta(minutes=5)
 
-db = SQLAlchemy(app)
+# Database connection function
+def create_connection():
+    connection = None
+    try:
+        connection = mysql.connector.connect(
+            host="localhost",
+            user="root",
+            password="$4Y my n4m3",
+            database="saad"
+        )
+    except Error as e:
+        print(f"The error '{e}' occurred")
+    return connection
 
-class users(db.Model):
-    _id = db.Column("id", db.Integer, primary_key=True, unique=True)
-    name = db.Column("name", db.String(100), nullable=False)
-    email = db.Column("email", db.String(100), nullable=False, unique=True)
+# Endpoint to update progress
+@app.route('/update-progress', methods=['POST'])
+def update_progress():
+    data = request.get_json()
+    user_id = data['user_id']
+    module_name = data['module_name']
+    progress = data['progress']
+    
+    connection = create_connection()
+    cursor = connection.cursor()
+    
+    try:
+        cursor.execute("""
+            INSERT INTO training_progress (user_id, module_name, progress)
+            VALUES (%s, %s, %s)
+            ON DUPLICATE KEY UPDATE progress=%s, updated_at=NOW()
+        """, (user_id, module_name, progress, progress))
+        connection.commit()
+        return jsonify({'success': True}), 200
+    except Error as e:
+        return jsonify({'success': False, 'error': str(e)}), 500
+    finally:
+        cursor.close()
+        connection.close()
 
-# insert other necessary parameters
-
-    def __init__(self, name, email):
-        self.name = name
-        self.email = email
 
 @app.route("/")
 def home():
@@ -56,6 +83,20 @@ def prog_and_events():
 def training():
     # insert session code block here
     return render_template('training.html')
+
+@app.route("/training-and-development/modules/leadership-training")
+def leadership():
+    # insert session code block here
+    return render_template('module-1.html')
+
+@app.route("/training-and-development/modules/community-engagement")
+def community():
+    # insert session code block here
+    return render_template('module-2.html')
+
+@app.route("/training-and-development/modules/basic-life-support")
+def basic_life_support():
+    return render_template('module-3.html')
 
 # insert logout route here
 # @app.route("/logout")

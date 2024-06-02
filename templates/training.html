@@ -16,13 +16,14 @@
                     <i>earn a certificate</i>
                 </span>
                 <div class="progress-bar">
-                    <div class="progress"></div>
+                    <div class="progress" style="width: 0%;"></div>
                     <span class="percent">0%</span>
                 </div>
                 <p>In this module, members will undergo leadership training webinars to enhance your leadership skills. The seminar will be hosted by [name]. Completion of this Module will award you with a digital certificate (you may request for a hardcopy once training is complete).</p>
-                <button class="btn">
+                <a href="{{ url_for('leadership')}}">
+                <button class="btn" onclick="updateProgress('Leadership Training', 1, 10)">
                     Start Module
-                </button>
+                </button></a>
             </div>
         </div>
     </div>
@@ -39,14 +40,15 @@
                     <i>earn a certificate</i>
                 </span>
                 <div class="progress-bar">
-                    <div class="progress"></div>
+                    <div class="progress" style="width: 0%;"></div>
                     <span class="percent">0%</span>
                 </div>
                 
                 <p>In this module, members will undergo community engagement seminars. There will be readings of community / barangay ordinances to be familiarized with the rules and regulations of Barangay 183. Completion of this Module will award you with a digital certificate (you may request for a hardcopy once training is complete).</p>
-                <button class="btn">
+                <a href="{{ url_for('community') }}">
+                <button class="btn" onclick="updateProgress('Leadership Training', 1, 10)">
                     Start Module
-                </button>
+                </button></a>
             </div>
         </div>
     </div>
@@ -63,15 +65,17 @@
                     <i>earn a certificate & Red Cross Youth membership ID</i>
                 </span>
                 <div class="progress-bar">
-                    <div class="progress"></div>
+                    <div class="progress" style="width: 0%;"></div>
                     <span class="percent">0%</span>
                 </div>
                 <p>Members will undergo basic life support training hosted by the Philippine Red Cross: Pasay City Chapter. Completion of this course will award you with a digital certificate (you may request for a hardcopy once training is complete) and membership ID from the Philippine Red Cross.</p>
-                <button class="btn">
+                <a href="{{ url_for('basic_life_support') }}">
+                <button class="btn" onclick="updateProgress('Leadership Training', 1, 10)">
                     Start Module
-                </button>
+                </button></a>
             </div>
         </div>
     </div>
 </section>
+<script src="../static/js/training.js"></script>
 {% endblock %}
